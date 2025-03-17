@@ -1,4 +1,3 @@
-
 DEBUG = True
 TESTING = True
 SECRET_KEY = 'django-insecure'

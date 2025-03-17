@@ -26,6 +26,7 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'saas_auth.middleware.SessionRecordMiddleware',
 ]
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 CACHES = {
@@ -52,6 +53,10 @@ INSTALLED_APPS = [
 ]
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'saas_auth.drf.authentication.TokenAuthentication',
+    ],
     'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
     'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
