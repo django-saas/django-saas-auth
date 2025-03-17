@@ -12,11 +12,16 @@ class UserEndpoint(BaseUserEndpoint):
 
 
 class UserProfileEndpoint(RetrieveModelMixin, UpdateModelMixin, AuthenticatedEndpoint):
+    resource_scopes = ['user', 'user:profile']
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
 
     def get_object(self):
-        obj = get_object_or_404(self.queryset, user=self.request.user)
+        try:
+            obj = self.queryset.get(user=self.request.user)
+        except UserProfile.DoesNotExist:
+            obj = UserProfile.objects.create(user=self.request.user)
+
         self.check_object_permissions(self.request, obj)
         return obj
 

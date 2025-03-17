@@ -30,7 +30,7 @@ class SessionRecordMiddleware:
         user_id = request.session.get(USER_SESSION_KEY)
         session_key = request.session.session_key
         expiry_date = request.session.get_expiry_date()
-        user_agent = request.headers.get('User-Agent')
+        user_agent = request.headers.get('User-Agent', '')
         location = auth_settings.LOCATION_RESOLVER.resolve(request)
         Session.objects.update_or_create(
             user_id=user_id,
