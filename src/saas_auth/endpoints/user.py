@@ -1,4 +1,3 @@
-from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from saas_base.drf.views import AuthenticatedEndpoint
 from saas_base.endpoints.user import UserEndpoint as BaseUserEndpoint
