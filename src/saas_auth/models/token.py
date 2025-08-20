@@ -22,7 +22,7 @@ class UserToken(models.Model):
     )
     name = models.CharField(max_length=48)
     key = models.CharField(unique=True, max_length=48, default=gen_token_key, editable=False)
-    scope = models.CharField(max_length=255)
+    scope = models.TextField(null=True, blank=True)
     expires_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
 

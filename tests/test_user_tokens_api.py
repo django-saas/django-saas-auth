@@ -22,12 +22,6 @@ class TestUserTokensAPI(SaasTestCase):
         resp = self.client.post('/api/user/tokens/', data=data, format='json')
         self.assertEqual(resp.status_code, 201)
 
-    def test_create_user_token_without_scope(self):
-        self.force_login()
-        data = {'name': 'foo'}
-        resp = self.client.post('/api/user/tokens/', data=data, format='json')
-        self.assertEqual(resp.status_code, 400)
-
     def test_create_user_token_with_key(self):
         self.force_login()
         data = {'name': 'foo', 'scope': '__all__', 'key': 'bar'}
