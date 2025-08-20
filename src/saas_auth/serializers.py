@@ -37,6 +37,8 @@ class UserSerializer(ModelSerializer):
 
 
 class UserTokenSerializer(ModelSerializer):
+    last_used = serializers.IntegerField(source='get_last_used', read_only=True, allow_null=True)
+
     class Meta:
         model = UserToken
         exclude = ['user']

@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.core.cache import cache
 from ..util import gen_token_key
 
 
@@ -31,3 +32,7 @@ class UserToken(models.Model):
 
     def __str__(self):
         return f'UserToken<{self.name}>'
+
+    def get_last_used(self):
+        cache_key = 'saas_auth:token_last_used:%s' % self.key
+        return cache.get(cache_key)

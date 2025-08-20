@@ -18,6 +18,8 @@ class TestUserTokensAPI(SaasTestCase):
         self.setup_user_token()
         resp = self.client.get('/api/user/tokens/')
         self.assertEqual(resp.status_code, 200)
+        token = resp.json()[0]
+        self.assertIsNotNone(token['last_used'])
 
     def test_without_token(self):
         resp = self.client.get('/api/user/tokens/')

@@ -1,4 +1,6 @@
+import time
 from django.utils import timezone
+from django.core.cache import cache
 from rest_framework.request import Request
 from rest_framework.authentication import (
     TokenAuthentication as _TokenAuthentication,
@@ -24,4 +26,8 @@ class TokenAuthentication(_TokenAuthentication):
         else:
             tenant_id = getattr(request._request, 'tenant_id', None)
         request.tenant_id = tenant_id
+
+        cache_key = 'saas_auth:token_last_used:%s' % token.key
+        # persist for 3 months
+        cache.set(cache_key, int(time.time()), 90 * 86400)
         return user, token

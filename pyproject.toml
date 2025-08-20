@@ -38,6 +38,7 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "django-stubs",
     "drf_spectacular",
     "pytest",
     "pytest-django",
