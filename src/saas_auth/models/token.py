@@ -33,6 +33,9 @@ class UserToken(models.Model):
     def __str__(self):
         return f'UserToken<{self.name}>'
 
+    @property
+    def _cache_key(self):
+        return f'saas_auth:token:{self.key}'
+
     def get_last_used(self):
-        cache_key = 'saas_auth:token_last_used:%s' % self.key
-        return cache.get(cache_key)
+        return cache.get(self._cache_key)

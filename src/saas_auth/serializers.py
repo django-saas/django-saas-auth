@@ -42,8 +42,3 @@ class UserTokenSerializer(ModelSerializer):
             'key': {'read_only': True},
             'created_at': {'read_only': True},
         }
-
-    def create(self, validated_data):
-        request = self.context['request']
-        validated_data['user'] = request.user
-        return super().create(validated_data)

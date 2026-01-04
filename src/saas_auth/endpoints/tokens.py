@@ -23,6 +23,9 @@ class UserTokenListEndpoint(ListModelMixin, CreateModelMixin, AuthenticatedEndpo
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class UserTokenItemEndpoint(DestroyModelMixin, AuthenticatedEndpoint):
     serializer_class = UserTokenSerializer
