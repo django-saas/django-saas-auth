@@ -1,4 +1,4 @@
-from saas_base.security.ip import get_client_ip
+from saas_base.functions.ip import get_client_ip
 from .base import BaseBackend
 
 
