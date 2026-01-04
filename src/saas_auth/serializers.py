@@ -21,14 +21,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         exclude = ('user',)
 
-    def create(self, validated_data):
-        request = self.context['request']
-        validated_data['user'] = request.user
-        return super(UserProfileSerializer, self).create(validated_data)
-
 
 class UserSerializer(ModelSerializer):
     profile = UserProfileSerializer()
+    name = serializers.CharField(source='get_full_name', read_only=True)
 
     class Meta:
         model = get_user_model()
