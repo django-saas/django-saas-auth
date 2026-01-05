@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from saas_base.drf.serializers import ModelSerializer
+from saas_base.drf.serializers import FlattenModelSerializer
 from .models import Session, UserProfile, UserToken
 
 
@@ -22,7 +22,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         exclude = ('user',)
 
 
-class UserSerializer(ModelSerializer):
+class UserSerializer(FlattenModelSerializer):
     profile = UserProfileSerializer()
     name = serializers.CharField(source='get_full_name', read_only=True)
 
@@ -32,7 +32,7 @@ class UserSerializer(ModelSerializer):
         flatten_fields = ['profile']
 
 
-class UserTokenSerializer(ModelSerializer):
+class UserTokenSerializer(serializers.ModelSerializer):
     last_used = serializers.IntegerField(source='get_last_used', read_only=True, allow_null=True)
 
     class Meta:
