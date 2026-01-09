@@ -1,5 +1,5 @@
 from .session import Session
-from .user import UserProfile
+from .profile import UserProfile
 from .token import UserToken
 
 

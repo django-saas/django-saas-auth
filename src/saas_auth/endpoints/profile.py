@@ -1,13 +1,8 @@
 from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from saas_base.drf.views import AuthenticatedEndpoint
-from saas_base.endpoints.user import UserEndpoint as BaseUserEndpoint
 
 from ..models import UserProfile
-from ..serializers import UserSerializer, UserProfileSerializer
-
-
-class UserEndpoint(BaseUserEndpoint):
-    serializer_class = UserSerializer
+from ..serializers import UserProfileSerializer
 
 
 class UserProfileEndpoint(RetrieveModelMixin, UpdateModelMixin, AuthenticatedEndpoint):
