@@ -17,9 +17,11 @@ class SessionSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    avatar = serializers.URLField(required=False, allow_null=True)
+
     class Meta:
         model = UserProfile
-        exclude = ('user',)
+        exclude = ('user', 'picture')
 
 
 class UserSerializer(FlattenModelSerializer):

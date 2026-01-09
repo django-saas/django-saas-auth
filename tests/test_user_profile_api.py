@@ -1,3 +1,4 @@
+from django.test import override_settings
 from saas_base.test import SaasTestCase
 
 
@@ -13,6 +14,16 @@ class TestUserProfileAPI(SaasTestCase):
         self.assertEqual(resp.status_code, 200)
         data = resp.json()
         self.assertEqual(data['name'], user.get_full_name())
+        self.assertIsNone(data['avatar'])
+
+    @override_settings(SAAS_AUTH={'ENABLE_GRAVATAR': True})
+    def test_fetch_gravatar(self):
+        self.force_login()
+        resp = self.client.get('/api/user/profile/')
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertIn('avatar', data)
+        self.assertTrue(data['avatar'].startswith('https://gravatar.com/'))
 
     def test_update_user_with_profile_data(self):
         self.force_login()
@@ -26,18 +37,18 @@ class TestUserProfileAPI(SaasTestCase):
         result = resp.json()
         self.assertEqual(result['locale'], 'zh-Hans')
 
-    def test_update_invalid_picture(self):
+    def test_update_invalid_avatar(self):
         self.force_login()
-        data = {'picture': 'foo'}
+        data = {'avatar': 'foo'}
         resp = self.client.patch('/api/user/', data)
         self.assertEqual(resp.status_code, 400)
 
-    def test_update_profile_picture(self):
+    def test_update_avatar(self):
         self.force_login()
         resp = self.client.patch(
             '/api/user/profile/',
-            {'picture': 'https://example.com/foo.png'},
+            {'avatar': 'https://example.com/foo.png'},
         )
         self.assertEqual(resp.status_code, 200)
         data = resp.json()
-        self.assertEqual(data['picture'], 'https://example.com/foo.png')
+        self.assertEqual(data['avatar'], 'https://example.com/foo.png')
