@@ -7,7 +7,6 @@ class UserProfile(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         primary_key=True,
-        related_name='profile',
         editable=False,
     )
     picture = models.URLField(blank=True, null=True)

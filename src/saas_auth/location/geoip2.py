@@ -1,5 +1,5 @@
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
-from saas_base.functions.ip import get_client_ip
+from saas_base.ipware import get_client_ip
 from .base import BaseBackend
 
 _geo = GeoIP2()

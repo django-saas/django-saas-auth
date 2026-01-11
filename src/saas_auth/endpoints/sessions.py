@@ -12,6 +12,7 @@ __all__ = [
 class SessionRecordListEndpoint(ListModelMixin, AuthenticatedEndpoint):
     queryset = Session.objects.all()
     serializer_class = SessionSerializer
+    resource_scopes = ['user', 'user:session']
 
     def filter_queryset(self, queryset):
         return queryset.filter(user=self.request.user)
@@ -23,6 +24,7 @@ class SessionRecordListEndpoint(ListModelMixin, AuthenticatedEndpoint):
 class SessionRecordItemEndpoint(RetrieveModelMixin, DestroyModelMixin, AuthenticatedEndpoint):
     queryset = Session.objects.all()
     serializer_class = SessionSerializer
+    resource_scopes = ['user', 'user:session']
 
     def filter_queryset(self, queryset):
         return queryset.filter(user=self.request.user)

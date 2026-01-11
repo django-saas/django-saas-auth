@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import (
     Session,
-    UserProfile,
     UserToken,
 )
 
@@ -12,11 +11,6 @@ class SessionAdmin(admin.ModelAdmin):
 
     def country(self, obj):
         return obj.location.get('country')
-
-
-@admin.register(UserProfile)
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'picture', 'region', 'locale')
 
 
 @admin.register(UserToken)

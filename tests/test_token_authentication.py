@@ -27,10 +27,10 @@ class TestUserTokensAPI(SaasTestCase):
 
     def test_with_invalid_scope(self):
         self.setup_user_token('tenant')
-        resp = self.client.get('/api/user/profile/')
+        resp = self.client.get('/api/user/sessions/')
         self.assertEqual(resp.status_code, 403)
 
     def test_with_valid_scope(self):
         self.setup_user_token('user')
-        resp = self.client.get('/api/user/profile/')
+        resp = self.client.get('/api/user/sessions/')
         self.assertEqual(resp.status_code, 200)
