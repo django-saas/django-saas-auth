@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.core.cache import cache
-from ..util import gen_token_key
+from ..utils import gen_token_key
 
 
 class UserToken(models.Model):
