@@ -17,8 +17,20 @@ class SessionRecordMiddleware:
         self.get_response = get_response
 
     def should_record(self, request):
+        if not hasattr(request, 'session'):
+            return False
+
+        if not hasattr(request, 'user'):
+            return False
+
+        if not request.user.is_authenticated:
+            return False
+
         user_id = request.session.get(USER_SESSION_KEY)
         if not user_id:
+            return False
+
+        if not request.session.session_key:
             return False
 
         last_record = request.session.get(LAST_RECORD_KEY)
@@ -44,9 +56,8 @@ class SessionRecordMiddleware:
         )
 
     def __call__(self, request):
-        if not self.should_record(request):
-            return self.get_response(request)
+        if self.should_record(request):
+            self.record_session(request)
+            request.session[LAST_RECORD_KEY] = int(time.time())
 
-        self.record_session(request)
-        request.session[LAST_RECORD_KEY] = int(time.time())
         return self.get_response(request)
