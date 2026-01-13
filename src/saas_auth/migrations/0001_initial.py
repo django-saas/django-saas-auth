@@ -17,28 +17,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='UserProfile',
-            fields=[
-                (
-                    'user',
-                    models.OneToOneField(
-                        editable=False,
-                        on_delete=models.CASCADE,
-                        primary_key=True,
-                        related_name='profile',
-                        serialize=False,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
-                ('picture', models.URLField(blank=True, null=True)),
-                ('region', models.CharField(blank=True, max_length=4, null=True)),
-                ('locale', models.CharField(blank=True, max_length=10, null=True)),
-            ],
-            options={
-                'db_table': 'saas_auth_user_profile',
-            },
-        ),
-        migrations.CreateModel(
             name='UserToken',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
