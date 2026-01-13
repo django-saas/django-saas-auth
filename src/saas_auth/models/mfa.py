@@ -30,6 +30,9 @@ class MFASettings(models.Model):
         blank=True,
     )
 
+    class Meta:
+        db_table = 'saas_auth_mfa_settings'
+
 
 class TOTPDevice(models.Model):
     user = models.OneToOneField(
@@ -42,6 +45,9 @@ class TOTPDevice(models.Model):
     confirmed_at = models.DateTimeField(null=True)
     last_used_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = 'saas_auth_mfa_totp'
 
     @classmethod
     def create_device(cls, user) -> 'TOTPDevice':
@@ -60,6 +66,9 @@ class WebAuthnDevice(models.Model):
     last_used_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        db_table = 'saas_auth_mfa_passkey'
+
 
 class MFABackupCode(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -69,6 +78,7 @@ class MFABackupCode(models.Model):
     used_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
+        db_table = 'saas_auth_mfa_codes'
         indexes = [
             models.Index(
                 fields=['user'],
