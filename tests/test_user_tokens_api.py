@@ -10,7 +10,7 @@ class TestUserTokensAPI(SaasTestCase):
         for i in range(count):
             token = UserToken.objects.create(
                 name=f'Foo {i}',
-                scope='__all__',
+                scope='user org',
                 user_id=self.user_id,
             )
             items.append(token)
@@ -18,13 +18,19 @@ class TestUserTokensAPI(SaasTestCase):
 
     def test_create_user_token_with_scope(self):
         self.force_login()
-        data = {'name': 'foo', 'scope': '__all__'}
+        data = {'name': 'foo', 'scope': 'user'}
         resp = self.client.post('/api/user/tokens/', data=data, format='json')
         self.assertEqual(resp.status_code, 201)
 
+    def test_create_with_invalid_scope(self):
+        self.force_login()
+        data = {'name': 'foo', 'scope': 'invalid'}
+        resp = self.client.post('/api/user/tokens/', data=data, format='json')
+        self.assertEqual(resp.status_code, 400)
+
     def test_create_user_token_with_key(self):
         self.force_login()
-        data = {'name': 'foo', 'scope': '__all__', 'key': 'bar'}
+        data = {'name': 'foo', 'scope': 'user', 'key': 'bar'}
         resp = self.client.post('/api/user/tokens/', data=data, format='json')
         self.assertEqual(resp.status_code, 201)
         data = resp.json()

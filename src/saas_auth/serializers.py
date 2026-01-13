@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from saas_base.registry import perm_registry
 from saas_auth.models import Session, UserToken
 
 
@@ -24,3 +25,11 @@ class UserTokenSerializer(serializers.ModelSerializer):
             'key': {'read_only': True},
             'created_at': {'read_only': True},
         }
+
+    def validate_scope(self, value: str):
+        scopes = value.split(' ')
+        defined_scopes = perm_registry.get_scope_keys()
+        for scope in scopes:
+            if scope not in defined_scopes:
+                raise serializers.ValidationError(f'Scope {scope} is not defined')
+        return value

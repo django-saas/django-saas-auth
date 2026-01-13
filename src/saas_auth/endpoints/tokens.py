@@ -1,5 +1,6 @@
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin
 from saas_base.drf.views import AuthenticatedEndpoint
+from saas_auth.drf.permissions import NotUseToken
 from ..models import UserToken
 from ..serializers import UserTokenSerializer
 
@@ -13,6 +14,7 @@ class UserTokenListEndpoint(ListModelMixin, CreateModelMixin, AuthenticatedEndpo
     serializer_class = UserTokenSerializer
     pagination_class = None
     queryset = UserToken.objects.all()
+    permission_classes = [NotUseToken]
 
     def filter_queryset(self, queryset):
         return queryset.filter(user=self.request.user)
@@ -30,6 +32,7 @@ class UserTokenListEndpoint(ListModelMixin, CreateModelMixin, AuthenticatedEndpo
 class UserTokenItemEndpoint(DestroyModelMixin, AuthenticatedEndpoint):
     serializer_class = UserTokenSerializer
     queryset = UserToken.objects.all()
+    permission_classes = [NotUseToken]
 
     def filter_queryset(self, queryset):
         return queryset.filter(user=self.request.user)

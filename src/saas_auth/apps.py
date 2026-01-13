@@ -4,4 +4,6 @@ from django.apps import AppConfig
 class AuthConfig(AppConfig):
     name = 'saas_auth'
     verbose_name = 'SaaS Authentication'
-    default_auto_field = 'django.db.models.BigAutoField'
+
+    def ready(self):
+        __import__('saas_auth.registry.default_perms')

@@ -1,7 +1,8 @@
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, DestroyModelMixin
 from saas_base.drf.views import AuthenticatedEndpoint
-from ..models import Session
-from ..serializers import SessionSerializer
+from saas_base.drf.decorators import resource_permission
+from saas_auth.models import Session
+from saas_auth.serializers import SessionSerializer
 
 __all__ = [
     'SessionRecordListEndpoint',
@@ -12,11 +13,11 @@ __all__ = [
 class SessionRecordListEndpoint(ListModelMixin, AuthenticatedEndpoint):
     queryset = Session.objects.all()
     serializer_class = SessionSerializer
-    resource_scopes = ['user', 'user:session']
 
     def filter_queryset(self, queryset):
         return queryset.filter(user=self.request.user)
 
+    @resource_permission('user.sessions.view')
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -24,14 +25,15 @@ class SessionRecordListEndpoint(ListModelMixin, AuthenticatedEndpoint):
 class SessionRecordItemEndpoint(RetrieveModelMixin, DestroyModelMixin, AuthenticatedEndpoint):
     queryset = Session.objects.all()
     serializer_class = SessionSerializer
-    resource_scopes = ['user', 'user:session']
 
     def filter_queryset(self, queryset):
         return queryset.filter(user=self.request.user)
 
+    @resource_permission('user.sessions.view')
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
+    @resource_permission('user.sessions.manage')
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
