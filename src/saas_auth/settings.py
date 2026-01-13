@@ -3,13 +3,10 @@ from saas_base.settings import Settings
 
 DEFAULTS = {
     'ENABLE_GRAVATAR': False,
-    'GRAVATAR_OPTIONS': {
-        'size': 400,
-        'default': 'identicon'
-    },
+    'GRAVATAR_OPTIONS': {'size': 400, 'default': 'identicon'},
     'LOCATION_RESOLVER': {
         'backend': 'saas_auth.location.cloudflare.CloudflareBackend',
-    }
+    },
 }
 
 

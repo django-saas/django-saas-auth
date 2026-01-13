@@ -51,27 +51,19 @@ class TOTPDevice(models.Model):
 
 class WebAuthnDevice(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='webauthn_devices'
-    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='webauthn_devices')
     name = models.CharField(max_length=64)
     credential_id = models.CharField(max_length=1024, unique=True, db_index=True)
     public_key = models.TextField()
     sign_count = models.BigIntegerField(default=0)
-    transports = models.CharField(max_length=255, default="", blank=True)
+    transports = models.CharField(max_length=255, default='', blank=True)
     last_used_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
 
 class MFABackupCode(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='mfa_backup_codes'
-    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='mfa_backup_codes')
     code = models.CharField(max_length=128)
     created_at = models.DateTimeField(default=timezone.now)
     used_at = models.DateTimeField(null=True, blank=True)
