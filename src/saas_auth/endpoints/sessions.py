@@ -17,7 +17,7 @@ class SessionRecordListEndpoint(ListModelMixin, AuthenticatedEndpoint):
     def filter_queryset(self, queryset):
         return queryset.filter(user=self.request.user)
 
-    @resource_permission('user.sessions.view')
+    @resource_permission('user.session.view')
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -29,11 +29,11 @@ class SessionRecordItemEndpoint(RetrieveModelMixin, DestroyModelMixin, Authentic
     def filter_queryset(self, queryset):
         return queryset.filter(user=self.request.user)
 
-    @resource_permission('user.sessions.view')
+    @resource_permission('user.session.view')
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    @resource_permission('user.sessions.manage')
+    @resource_permission('user.session.manage')
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
