@@ -28,8 +28,12 @@ class UserTokenSerializer(serializers.ModelSerializer):
 
     def validate_scope(self, value: str):
         scopes = value.split(' ')
-        defined_scopes = perm_registry.get_scope_keys()
-        for scope in scopes:
-            if scope not in defined_scopes:
-                raise serializers.ValidationError(f'Scope {scope} is not defined')
-        return value
+        inclusion_map = perm_registry.get_scope_inclusion_map()
+
+        to_remove = set()
+        for s_key in scopes:
+            if s_key not in inclusion_map:
+                raise serializers.ValidationError(f'Scope {s_key} is not defined')
+            to_remove.update(inclusion_map[s_key])
+
+        return ' '.join([s for s in scopes if s not in to_remove])

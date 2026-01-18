@@ -22,6 +22,14 @@ class TestUserTokensAPI(SaasTestCase):
         resp = self.client.post('/api/user/tokens/', data=data, format='json')
         self.assertEqual(resp.status_code, 201)
 
+    def test_create_token_normalize_scope(self):
+        self.force_login()
+        data = {'name': 'foo', 'scope': 'user user:read'}
+        resp = self.client.post('/api/user/tokens/', data=data, format='json')
+        self.assertEqual(resp.status_code, 201)
+        token = UserToken.objects.get(name='foo')
+        self.assertEqual(token.scope, 'user')
+
     def test_create_with_invalid_scope(self):
         self.force_login()
         data = {'name': 'foo', 'scope': 'invalid'}
