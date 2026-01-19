@@ -3,11 +3,14 @@ from __future__ import annotations
 import uuid
 import string
 import secrets
+from otpauth import TOTP
 from django.db import models, transaction
 from django.conf import settings
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils import timezone
 from saas_base.db.fields import EncryptedField
+
+from saas_auth.settings import auth_settings
 
 
 class MFASettings(models.Model):
@@ -15,10 +18,11 @@ class MFASettings(models.Model):
         TOTP = 1, 'totp'
         PASSKEY = 2, 'webauthn'
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        primary_key=True,
+        db_index=True,
         related_name='mfa_settings',
     )
     is_totp_enabled = models.BooleanField(default=False)
@@ -32,13 +36,19 @@ class MFASettings(models.Model):
 
     class Meta:
         db_table = 'saas_auth_mfa_settings'
+        ordering = ('-last_used_at',)
+
+    @property
+    def is_enabled(self):
+        return self.is_webauthn_enabled or self.is_totp_enabled
 
 
 class TOTPDevice(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        primary_key=True,
+        db_index=True,
         related_name='totp_device',
     )
     secret_key = EncryptedField()
@@ -48,6 +58,16 @@ class TOTPDevice(models.Model):
 
     class Meta:
         db_table = 'saas_auth_mfa_totp'
+        ordering = ('-created_at',)
+
+    @property
+    def totp(self):
+        return TOTP(
+            self.secret_key,
+            auth_settings.TOTP_DIGITS,
+            auth_settings.TOTP_ALGORITHM,
+            auth_settings.TOTP_PERIOD,
+        )
 
     @classmethod
     def create_device(cls, user) -> 'TOTPDevice':
@@ -68,6 +88,7 @@ class WebAuthnDevice(models.Model):
 
     class Meta:
         db_table = 'saas_auth_mfa_passkey'
+        ordering = ('-created_at',)
 
 
 class MFABackupCode(models.Model):
@@ -79,6 +100,7 @@ class MFABackupCode(models.Model):
 
     class Meta:
         db_table = 'saas_auth_mfa_codes'
+        ordering = ('-created_at',)
         indexes = [
             models.Index(
                 fields=['user'],

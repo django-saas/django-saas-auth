@@ -1,9 +1,8 @@
-import time
 from django.contrib.auth import SESSION_KEY as USER_SESSION_KEY
 from django.utils import timezone
 
-from .models import Session
-from .settings import auth_settings
+from saas_auth.models import Session
+from saas_auth.settings import auth_settings
 
 __all__ = ['SessionRecordMiddleware']
 
@@ -11,9 +10,7 @@ LAST_RECORD_KEY = '_last_record_time'
 
 
 class SessionRecordMiddleware:
-    RECORD_INTERVAL = 300  # 5 minutes
-
-    def __init__(self, get_response=None):
+    def __init__(self, get_response):
         self.get_response = get_response
 
     def should_record(self, request):
@@ -36,7 +33,9 @@ class SessionRecordMiddleware:
         last_record = request.session.get(LAST_RECORD_KEY)
         if not last_record:
             return True
-        return time.time() - last_record > self.RECORD_INTERVAL
+
+        now = timezone.now().timestamp()
+        return now - last_record > auth_settings.SESSION_RECORD_INTERVAL
 
     def record_session(self, request):
         user_id = request.session.get(USER_SESSION_KEY)
@@ -58,6 +57,7 @@ class SessionRecordMiddleware:
     def __call__(self, request):
         if self.should_record(request):
             self.record_session(request)
-            request.session[LAST_RECORD_KEY] = int(time.time())
+            now = timezone.now().timestamp()
+            request.session[LAST_RECORD_KEY] = int(now)
 
         return self.get_response(request)
