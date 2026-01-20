@@ -1,6 +1,6 @@
 [project]
 name = "django-saas-auth"
-version = "0.4.0"
+version = "0.4.1"
 description = "The authentication module for building a SaaS product with Django"
 authors = [
     { name = "Hsiaoming Yang", email = "me@lepture.com" }

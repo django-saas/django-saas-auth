@@ -5,8 +5,6 @@ from saas_base.settings import BaseSettings
 class AuthSettings(BaseSettings):
     SETTINGS_KEY = 'SAAS_AUTH'
     DEFAULT_SETTINGS = {
-        'ENABLE_GRAVATAR': False,
-        'GRAVATAR_OPTIONS': {'size': 400, 'default': 'identicon'},
         'LOCATION_RESOLVER': {
             'backend': 'saas_auth.location.cloudflare.CloudflareBackend',
         },
