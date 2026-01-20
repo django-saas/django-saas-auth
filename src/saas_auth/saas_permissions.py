@@ -32,26 +32,3 @@ perm_registry.register_permission(
     description=_('Add, update, delete any API tokens for the user'),
     severity=Severity.CRITICAL,
 )
-
-# security permissions will not distribute to token scopes
-
-perm_registry.register_permission(
-    key='security.mfa.view',
-    label=_('View MFA settings'),
-    module='Security',
-    severity=Severity.HIGH,
-)
-
-perm_registry.register_permission(
-    key='security.mfa.manage',
-    label=_('Verify MFA'),
-    module='Security',
-    severity=Severity.CRITICAL,
-)
-
-perm_registry.register_permission(
-    key='security.mfa.verify',
-    label=_('Verify MFA'),
-    module='Security',
-    severity=Severity.CRITICAL,
-)
