@@ -1,10 +1,12 @@
 import time
-from django.utils import timezone
+
 from django.core.cache import cache
-from rest_framework.request import Request
+from django.utils import timezone
 from rest_framework.authentication import (
     TokenAuthentication as _TokenAuthentication,
 )
+from rest_framework.request import Request
+
 from saas_auth.models import UserToken
 
 

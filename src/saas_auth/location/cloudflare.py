@@ -1,6 +1,6 @@
 from saas_base.ipware import get_client_ip
-from .base import BaseBackend
 
+from .base import BaseBackend
 
 CLIENT_IP_HEADERS = (
     'True-Client-IP',  # Header for CloudFlare Enterprise.

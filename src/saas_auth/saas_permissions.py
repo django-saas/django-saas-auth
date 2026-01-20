@@ -1,5 +1,5 @@
 from django.utils.translation import gettext_lazy as _
-from saas_base.registry import perm_registry, Severity
+from saas_base.registry import Severity, perm_registry
 
 perm_registry.register_permission(
     key='user.session.view',

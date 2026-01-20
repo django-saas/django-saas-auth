@@ -1,6 +1,7 @@
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, DestroyModelMixin
-from saas_base.drf.views import AuthenticatedEndpoint
+from rest_framework.mixins import DestroyModelMixin, ListModelMixin, RetrieveModelMixin
 from saas_base.drf.decorators import resource_permission
+from saas_base.drf.views import AuthenticatedEndpoint
+
 from saas_auth.models import Session
 from saas_auth.serializers import SessionSerializer
 

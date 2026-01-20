@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from saas_base.registry import perm_registry
+
 from saas_auth.models import UserToken
 
 

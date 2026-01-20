@@ -1,6 +1,6 @@
-from django.urls import path, include
 from django.contrib import admin
 from django.contrib.staticfiles.urls import urlpatterns as static_urlpatterns
+from django.urls import include, path
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,

@@ -9,7 +9,7 @@ dependencies = [
     "Django",
     "otpauth",
     "djangorestframework",
-    "django-saas-base>=0.14.0",
+    "django-saas-base>=0.15.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.12"
@@ -64,6 +64,11 @@ exclude = [
 
 [tool.ruff]
 line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "I", # isort
+]
 
 [tool.ruff.format]
 quote-style = "single"

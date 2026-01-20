@@ -1,6 +1,6 @@
 from django.urls import path
-from ..endpoints.tokens import UserTokenListEndpoint, UserTokenItemEndpoint
 
+from ..endpoints.tokens import UserTokenItemEndpoint, UserTokenListEndpoint
 
 urlpatterns = [
     path('', UserTokenListEndpoint.as_view()),

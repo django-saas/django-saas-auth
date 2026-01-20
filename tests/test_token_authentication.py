@@ -1,4 +1,5 @@
 from saas_base.test import SaasTestCase
+
 from saas_auth.models import UserToken
 
 

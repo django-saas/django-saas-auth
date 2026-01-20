@@ -1,6 +1,8 @@
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, ListModelMixin
 from saas_base.drf.views import AuthenticatedEndpoint
+
 from saas_auth.drf.permissions import NotUseToken
+
 from ..models import UserToken
 from ..serializers import UserTokenSerializer
 
