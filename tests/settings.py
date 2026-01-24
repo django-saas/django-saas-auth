@@ -26,6 +26,8 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'saas_base.middleware.HeaderTenantIdMiddleware',
+    'saas_base.middleware.TenantMiddleware',
     'saas_auth.middleware.SessionRecordMiddleware',
 ]
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
@@ -49,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.sessions',
     'saas_base',
+    'saas_base.identity',
+    'saas_base.tenancy',
     'saas_auth',
     'tests',
 ]

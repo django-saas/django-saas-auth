@@ -16,6 +16,8 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'saas_base.middleware.HeaderTenantIdMiddleware',
+    'saas_base.middleware.TenantMiddleware',
     'saas_auth.middleware.SessionRecordMiddleware',
 ]
 TEMPLATES = [
@@ -59,6 +61,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'saas_base',
+    'saas_base.identity',
+    'saas_base.tenancy',
     'saas_base.drf',
     'saas_auth',
 ]
