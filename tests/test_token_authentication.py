@@ -63,3 +63,15 @@ class TestTokenAuthentication(SaasTestCase):
         token.save()
         resp = self.client.get('/api/user/sessions/')
         self.assertEqual(resp.status_code, 403)
+
+    def test_token_with_tenant(self):
+        token = UserToken.objects.create(
+            name='Test',
+            scope='user:read',
+            user_id=self.user_id,
+            tenant_id=1,
+        )
+        self.assertEqual(str(token), 'UserToken<Test>')
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token.key)
+        resp = self.client.get('/api/user/sessions/')
+        self.assertEqual(resp.status_code, 200)

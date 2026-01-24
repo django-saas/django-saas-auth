@@ -7,7 +7,6 @@ authors = [
 ]
 dependencies = [
     "Django",
-    "otpauth",
     "djangorestframework",
     "django-saas-base>=1.0.0a1",
 ]
