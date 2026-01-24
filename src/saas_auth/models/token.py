@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-from saas_auth.util import gen_token_key
+from saas_auth.settings import auth_settings
 
 
 class UserToken(models.Model):
@@ -21,7 +21,7 @@ class UserToken(models.Model):
         related_name='+',
     )
     name = models.CharField(max_length=48)
-    key = models.CharField(unique=True, max_length=48, default=gen_token_key, editable=False)
+    key = models.CharField(unique=True, max_length=48, default=auth_settings.generate_token, editable=False)
     scope = models.TextField(null=True, blank=True)
     last_used_at = models.DateTimeField(null=True, blank=True)
     expires_at = models.DateTimeField(null=True, blank=True)
@@ -33,3 +33,7 @@ class UserToken(models.Model):
 
     def __str__(self):
         return f'UserToken<{self.name}>'
+
+    @property
+    def is_expired(self):
+        return self.expires_at and self.expires_at < timezone.now()

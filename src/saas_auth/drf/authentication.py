@@ -21,7 +21,7 @@ class TokenAuthentication(_TokenAuthentication):
             return None
 
         user, token = credentials
-        if token.expires_at and token.expires_at < timezone.now():
+        if token.is_expired:
             return None
 
         if token.tenant_id:

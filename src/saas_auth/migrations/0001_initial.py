@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db import migrations, models
 from django.utils import timezone
 
-from saas_auth.util import gen_token_key
+from saas_auth.settings import auth_settings
 
 
 class Migration(migrations.Migration):
@@ -23,7 +23,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=48)),
-                ('key', models.CharField(default=gen_token_key, editable=False, max_length=48, unique=True)),
+                (
+                    'key',
+                    models.CharField(default=auth_settings.generate_token, editable=False, max_length=48, unique=True),
+                ),
                 ('scope', models.TextField(blank=True, null=True)),
                 ('last_used_at', models.DateTimeField(blank=True, null=True)),
                 ('expires_at', models.DateTimeField(blank=True, null=True)),
