@@ -22,9 +22,11 @@ class UserTokenListEndpoint(ListModelMixin, CreateModelMixin, AuthenticatedEndpo
         return queryset.filter(user=self.request.user)
 
     def get(self, request, *args, **kwargs):
+        """List all API tokens for the current user."""
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        """Create a new API token."""
         return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
@@ -40,4 +42,5 @@ class UserTokenItemEndpoint(DestroyModelMixin, AuthenticatedEndpoint):
         return queryset.filter(user=self.request.user)
 
     def delete(self, request, *args, **kwargs):
+        """Revoke and delete a specific API token."""
         return self.destroy(request, *args, **kwargs)

@@ -10,6 +10,6 @@ class SessionSerializer(serializers.ModelSerializer):
         model = Session
         exclude = ('user', 'session_key')
 
-    def get_current_session(self, obj):
+    def get_current_session(self, obj: Session) -> bool:
         request = self.context['request']
         return request.session.session_key == obj.session_key

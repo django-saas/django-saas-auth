@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'demo.demo_app',
 ]
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',

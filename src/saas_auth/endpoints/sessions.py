@@ -20,6 +20,7 @@ class SessionRecordListEndpoint(ListModelMixin, AuthenticatedEndpoint):
 
     @resource_permission('user.session.view')
     def get(self, request, *args, **kwargs):
+        """List all active sessions for the current user."""
         return self.list(request, *args, **kwargs)
 
 
@@ -32,10 +33,12 @@ class SessionRecordItemEndpoint(RetrieveModelMixin, DestroyModelMixin, Authentic
 
     @resource_permission('user.session.view')
     def get(self, request, *args, **kwargs):
+        """Retrieve details of a specific session."""
         return self.retrieve(request, *args, **kwargs)
 
     @resource_permission('user.session.manage')
     def delete(self, request, *args, **kwargs):
+        """Revoke and delete a specific session."""
         return self.destroy(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
