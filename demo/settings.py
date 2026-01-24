@@ -37,8 +37,8 @@ TEMPLATES = [
 ]
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'demo_cache_table',
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     }
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
@@ -65,11 +65,16 @@ INSTALLED_APPS = [
     'saas_base.tenancy',
     'saas_base.drf',
     'saas_auth',
+    'demo.demo_app',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'saas_auth.drf.authentication.TokenAuthentication',
     ],
     'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',

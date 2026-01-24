@@ -16,4 +16,5 @@ class SessionAdmin(admin.ModelAdmin):
 
 @admin.register(UserToken)
 class UserTokenAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'name', 'scope', 'expires_at')
+    list_display = ('id', 'user', 'name', 'scope', 'last_used_at', 'expires_at')
+    readonly_fields = ('key',)
