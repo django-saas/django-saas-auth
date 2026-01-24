@@ -50,9 +50,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.sessions',
+    'drf_spectacular',
     'saas_base',
     'saas_base.identity',
     'saas_base.tenancy',
+    'saas_base.drf',
     'saas_auth',
     'tests',
 ]
@@ -65,6 +67,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
     'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_SCHEMA_CLASS': 'saas_base.drf.spectacular.AutoSchema',
     'PAGE_SIZE': 10,
 }
 
