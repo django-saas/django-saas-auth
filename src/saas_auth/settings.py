@@ -8,6 +8,7 @@ class AuthSettings(BaseSettings):
         'LOCATION_RESOLVER': {
             'backend': 'saas_auth.location.cloudflare.CloudflareBackend',
         },
+        'USER_TOKEN_RECORD_INTERVAL': 300,
         'SESSION_RECORD_INTERVAL': 300,
     }
     IMPORT_SETTINGS = [
