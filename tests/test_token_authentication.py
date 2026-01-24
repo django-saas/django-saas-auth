@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from django.core.cache import cache
+from django.utils import timezone
 from saas_base.test import SaasTestCase
 
 from saas_auth.models import UserToken
@@ -53,3 +56,10 @@ class TestTokenAuthentication(SaasTestCase):
         token.refresh_from_db()
         last_used_at2 = token.last_used_at
         self.assertEqual(last_used_at1, last_used_at2)
+
+    def test_token_expired(self):
+        token = self.setup_user_token('user:read')
+        token.expires_at = timezone.now() - timedelta(days=1)
+        token.save()
+        resp = self.client.get('/api/user/sessions/')
+        self.assertEqual(resp.status_code, 403)
